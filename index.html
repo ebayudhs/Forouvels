@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>for my Louvél 💙</title>
+  <meta name="description" content="a tiny love letter — happy 4 month anniversary" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #e6f0ff;
+      --bg2: #c9dcff;
+      --accent: #4a80ff;
+      --accent-2: #5dd5ff;
+      --text: #1f2d4d;
+      --card: #ffffffcc;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 80% -10%, var(--bg2), transparent),
+                  radial-gradient(1000px 800px at -10% 110%, var(--bg2), transparent),
+                  linear-gradient(135deg, var(--bg1), #fdfbff);
+      overflow-x: hidden;
+    }
+    .wrap {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .card {
+      width: min(720px, 92vw);
+      background: var(--card);
+      backdrop-filter: blur(8px);
+      border: 1px solid #ffffff80;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px #00000015;
+      padding: clamp(16px, 4vw, 28px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 8px 14px; font-size: 12px; font-weight: 600;
+      letter-spacing: .3px; box-shadow: 0 4px 12px #4a80ff22;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: clamp(22px, 5.4vw, 36px); margin: 8px 0 14px; line-height: 1.25; }
+    p  { font-size: clamp(14px, 4vw, 18px); margin: 10px 0; }
+
+    .img {
+      width: 160px; height: 160px; border-radius: 20px; overflow: hidden;
+      margin: 16px auto 8px; border: 8px solid #fff; box-shadow: 0 10px 24px #00000018;
+    }
+    .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .btn {
+      display: inline-block; margin-top: 14px; padding: 14px 18px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; font-weight: 700; text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 10px 24px #4a80ff44; transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:active { transform: translateY(1px) scale(.99); box-shadow: 0 6px 16px #4a80ff33; }
+
+    .reveal {
+      display: none; opacity: 0; transform: translateY(8px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .reveal.show { display: block; opacity: 1; transform: translateY(0); }
+
+    /* floating hearts */
+    .floaters { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .heart { position: absolute; bottom: -32px; font-size: 18px; opacity: .65; animation: rise linear forwards; }
+    @keyframes rise {
+      to { transform: translateY(-110vh) translateX(var(--x-move, 0)); opacity: 0; }
+    }
+
+    footer { margin-top: 16px; font-size: 12px; opacity: .6; }
+    .small { font-size: 12px; opacity: .8; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" id="card">
+      <div class="badge">💙 for my Louvél</div>
+      <h1 id="headline">Hey love, I’ve got something to tell you…</h1>
+      <div class="img">
+        <img id="hero" alt="us" src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=800&auto=format&fit=crop"/>
+      </div>
+      <p class="small">(tap the button below 💌)</p>
+      <button class="btn" id="btn">open it</button>
+
+      <div class="reveal" id="msg1">
+        <h1>Happy 4 Month Anniversary 💙</h1>
+        <p>These four months with you have been the softest part of my life.  
+        Every day with you feels like a quiet song under the night sky.</p>
+      </div>
+
+      <div class="reveal" id="msg2">
+        <h1>and one more thing…</h1>
+        <p>You are my favorite home, my safe place, my forever.  
+        <strong>I love you endlessly, Louvél.</strong> 🌌</p>
+      </div>
+
+      <footer>from Mateo • <span id="date"></span></footer>
+      <div class="floaters" id="floaters"></div>
+    </div>
+  </div>
+
+  <script>
+    const btn = document.getElementById('btn');
+    const headline = document.getElementById('headline');
+    const msg1 = document.getElementById('msg1');
+    const msg2 = document.getElementById('msg2');
+    const dateEl = document.getElementById('date');
+    const floaters = document.getElementById('floaters');
+
+    dateEl.textContent = new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+
+    let step = 0;
+    btn.addEventListener('click', () => {
+      step++;
+      if (step === 1) {
+        headline.textContent = 'No joke, it’s really about you 💫';
+        msg1.classList.add('show');
+        sprayHearts(22);
+        btn.textContent = 'continue';
+      } else if (step === 2) {
+        msg2.classList.add('show');
+        sprayHearts(40);
+        btn.textContent = 'read again ✨';
+      } else {
+        step = 0;
+        headline.textContent = 'Hey love, I’ve got something to tell you…';
+        [msg1, msg2].forEach(e => e.classList.remove('show'));
+        btn.textContent = 'open it';
+        sprayHearts(16);
+      }
+    });
+
+    function sprayHearts(n = 20) {
+      for (let i = 0; i < n; i++) {
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.textContent = Math.random() < 0.7 ? '💙' : (Math.random() < 0.5 ? '💫' : '🤍');
+        const startX = Math.random() * 100;
+        const drift = (Math.random() * 60 - 30) + 'px';
+        const dur = (6 + Math.random() * 5).toFixed(2) + 's';
+        h.style.left = startX + 'vw';
+        h.style.setProperty('--x-move', drift);
+        h.style.animationDuration = dur;
+        floaters.appendChild(h);
+        setTimeout(() => h.remove(), parseFloat(dur) * 1000);
+      }
+    }
+
+    setTimeout(() => sprayHearts(18), 600);
+  </script>
+</body>
+</html
